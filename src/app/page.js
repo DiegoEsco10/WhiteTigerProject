@@ -9,43 +9,45 @@ const supabase = createClient('https://uktwrmzcoimevzflwkww.supabase.co', 'eyJhb
 
 export default function Home() {
   return (
-    <main className="grid grid-cols-1 grid-rows-2 max-w-full">
+    <div className="grid grid-cols-1 grid-rows-2 max-w-full">
       <div className="flex flex-nowrap justify-evenly">
         <h1>Logo</h1>
         <h1>White Tiger TaeKwonDoe</h1>
-        <h1>Login</h1>
+        <button onClick={() => console.log('/Dashboard')}>Dashboard</button>
+        <a href="/Dashboard">Dashboard</a>
       </div>
       <div className="max-w-full flex justify-center justify-items-center">
-        <Login />
+        {/* <Login /> */}
+
       </div>
-    </main>
+    </div>
   )
 };
 
-const Login = () => {
-  const [session, setSession] = useState(null)
+// const Login = () => {
+//   const [session, setSession] = useState(null)
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
+//   useEffect(() => {
+//     supabase.auth.getSession().then(({ data: { session } }) => {
+//       setSession(session)
+//     })
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
+//     const {
+//       data: { subscription },
+//     } = supabase.auth.onAuthStateChange((_event, session) => {
+//       setSession(session)
+//     })
 
-    return () => subscription.unsubscribe()
-  }, [])
+//     return () => subscription.unsubscribe()
+//   }, [])
 
-  if (!session) {
-    return (<Auth supabaseClient={supabase}
-      appearance={{ theme: ThemeSupa }}
-      provides={[]}
-      />)
-  }
-  else {
-    redirect('/Dashboard')
-  }
-};
+//   if (!session) {
+//     return (<Auth supabaseClient={supabase}
+//       appearance={{ theme: ThemeSupa }}
+//       provides={[]}
+//       />)
+//   }
+//   else {
+//     redirect('/Dashboard')
+//   }
+// };

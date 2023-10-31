@@ -11,6 +11,7 @@
   "dependencies": {
     "@supabase/auth-ui-react": "^0.4.6",
     "@supabase/auth-ui-shared": "^0.1.8",
+    "@supabase/ssr": "latest",
     "@supabase/supabase-js": "^2.38.4",
     "git": "^0.1.5",
     "next": "13.5.5",
@@ -18,8 +19,10 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@types/react": "18.2.33",
     "autoprefixer": "^10",
     "postcss": "^8",
-    "tailwindcss": "^3"
+    "tailwindcss": "^3",
+    "typescript": "5.2.2"
   }
 }

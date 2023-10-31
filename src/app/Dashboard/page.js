@@ -1,15 +1,55 @@
-import { createClient } from '@supabase/supabase-js'
+import DeployButton from '../Components/DeployButton'
+import AuthButton from '../Components/AuthButton'
+import { createClient } from '../utils/supabase/server'
+import ConnectSupabaseSteps from '../Components/ConnectSupabaseSteps'
+import SignUpUserSteps from '../Components/SignUpUserSteps'
+import Header from '../Components/Header'
+import { cookies } from 'next/headers'
 
-export default function Dashboard() {
+export default async function Index() {
+  const cookieStore = cookies()
 
-  // let { error } = await supabase.auth.signOut()
-  const supabase = createClient('https://uktwrmzcoimevzflwkww.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrdHdybXpjb2ltZXZ6Zmx3a3d3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc1Nzk4MzYsImV4cCI6MjAxMzE1NTgzNn0.d5PrMLscpyL5LfbCuAlhMNiLF8KByaA58nLV47oYLLE');
+  const canInitSupabaseClient = () => {
+    try {
+      createClient(cookieStore)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
 
+  const isSupabaseConnected = canInitSupabaseClient()
 
   return (
-    <div className="flex flex-nowrap justify-evenly max-w-full p-5">
-      <h1>Dashboard</h1>
-      <button className="border-2 border-black p-2 rounded-lg" onclick="supabase.auth.signOut()">Sign Out</button>
+    <div className="flex-1 w-full flex flex-col gap-20 items-center">
+      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
+          <DeployButton />
+          {isSupabaseConnected && <AuthButton />}
+        </div>
+      </nav>
+
+      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
+        <Header />
+        <main className="flex-1 flex flex-col gap-6">
+          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
+          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
+        </main>
+      </div>
+
+      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
+        <p>
+          Powered by{' '}
+          <a
+            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
+            target="_blank"
+            className="font-bold hover:underline"
+            rel="noreferrer"
+          >
+            Supabase
+          </a>
+        </p>
+      </footer>
     </div>
   )
 }
